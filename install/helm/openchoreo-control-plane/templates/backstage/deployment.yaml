@@ -66,10 +66,24 @@ spec:
               key: backend-secret
         {{- if .Values.thunder.enabled }}
         - name: THUNDER_BASE_URL
-          value: {{ .Values.backstage.thunder.baseUrl | default (printf "%s://%s%s" (include "openchoreo.protocol" .) (include "openchoreo.thunderHost" .) (include "openchoreo.port" .)) }}
+          value: {{ .Values.backstage.thunder.baseUrl | default (include "openchoreo.thunderInternalUrl" .) }}
         {{- if .Values.backstage.thunder.token }}
         - name: THUNDER_TOKEN
           value: {{ .Values.backstage.thunder.token | quote }}
+        {{- end }}
+        {{- if .Values.backstage.thunder.adminServiceAccount.enabled }}
+        # Thunder admin service account for accessing /users and /groups APIs
+        - name: THUNDER_ADMIN_CLIENT_ID
+          value: {{ .Values.backstage.thunder.adminServiceAccount.clientId | quote }}
+        - name: THUNDER_ADMIN_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "openchoreo-control-plane.fullname" . }}-backstage-secrets
+              key: thunder-admin-client-secret
+        - name: THUNDER_AUTH_TOKEN_URL
+          value: {{ printf "%s/oauth2/token" (include "openchoreo.thunderInternalUrl" .) }}
+        - name: THUNDER_AUTH_SCOPES
+          value: {{ .Values.backstage.thunder.adminServiceAccount.scopes | join " " | quote }}
         {{- end }}
         - name: OPENCHOREO_AUTH_AUTHORIZATION_URL
           value: {{ .Values.security.oidc.authorizationUrl | default (printf "%s://%s%s/oauth2/authorize" (include "openchoreo.protocol" .) (include "openchoreo.thunderHost" .) (include "openchoreo.port" .)) }}

@@ -395,7 +395,14 @@ backstage:
   baseUrl: ""
   thunder:
     baseUrl: ""
-    token: ""
+    # Service account for accessing Thunder admin APIs (/users, /groups)
+    adminServiceAccount:
+      enabled: true
+      clientId: "backstage-admin-sa"
+      clientSecret: "backstage-admin-sa-secret"
+      # Scopes required for admin API access (system scope required for /users, /groups)
+      scopes:
+        - system
   auth:
     authorizationUrl: ""
     tokenUrl: ""
@@ -652,6 +659,7 @@ thunder:
       files:
         - 50-backstage-app.sh
         - 51-user-schema-and-users.sh
+        - 52-backstage-admin-sa.sh
     # Default users to create during bootstrap
     defaultUsers:
       - username: "admin@openchoreo.dev"

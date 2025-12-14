@@ -223,5 +223,69 @@ data:
     fi
     {{- end }}
     {{- end }}
+
+  {{- if .Values.backstage.thunder.adminServiceAccount.enabled }}
+  52-backstage-admin-sa.sh: |
+    #!/bin/bash
+    set -e
+
+    log_info "Checking if 'Backstage Admin Service Account' application already exists..."
+    existing_apps=$(curl {{ $curlInsecure }} -s --max-time 10 '{{ $thunderUrl }}/applications')
+
+    # Extract application ID if it exists
+    admin_app_id=$(echo "$existing_apps" | grep -B5 '"name":"Backstage Admin Service Account"' | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4)
+
+    # Define the admin service account application payload
+    # This service account uses client_credentials grant only and has system scope for admin API access
+    ADMIN_SA_PAYLOAD='{
+      "name": "Backstage Admin Service Account",
+      "description": "Service account for Backstage to access Thunder admin APIs (users, groups)",
+      "inbound_auth_config": [
+        {
+          "type": "oauth2",
+          "config": {
+            "client_id": "{{ .Values.backstage.thunder.adminServiceAccount.clientId }}",
+            "client_secret": "{{ .Values.backstage.thunder.adminServiceAccount.clientSecret }}",
+            "grant_types": [
+              "client_credentials"
+            ],
+            "scopes": {{ .Values.backstage.thunder.adminServiceAccount.scopes | toJson }},
+            "token_endpoint_auth_method": "client_secret_post",
+            "public_client": false,
+            "token": {
+              "issuer": "thunder",
+              "access_token": {
+                "validity_period": 3600
+              }
+            }
+          }
+        }
+      ]
+    }'
+
+    if echo "$existing_apps" | grep -q '"name":"Backstage Admin Service Account"'; then
+      log_info "Application 'Backstage Admin Service Account' already exists (id: $admin_app_id), updating..."
+      curl {{ $curlInsecure }} --location -X PUT "{{ $thunderUrl }}/applications/$admin_app_id" \
+        --header 'Content-Type: application/json' \
+        --data "$ADMIN_SA_PAYLOAD" \
+        --fail-with-body \
+        --max-time 30 \
+        --retry 3 \
+        --retry-delay 5
+
+      log_info "Admin service account application updated successfully"
+    else
+      log_info "Admin service account application does not exist, creating..."
+      curl {{ $curlInsecure }} --location '{{ $thunderUrl }}/applications' \
+        --header 'Content-Type: application/json' \
+        --data "$ADMIN_SA_PAYLOAD" \
+        --fail-with-body \
+        --max-time 30 \
+        --retry 3 \
+        --retry-delay 5
+
+      log_info "Admin service account application created successfully"
+    fi
+  {{- end }}
 {{- end }}
 {{- end }}
