@@ -395,3 +395,9 @@ type VersionResponse struct {
 	GoArch      string `json:"goArch"`
 	GoVersion   string `json:"goVersion"`
 }
+
+// GitSecretResponse represents a git secret in API responses
+type GitSecretResponse struct {
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+}

@@ -381,3 +381,28 @@ func (req *UpdateComponentTraitsRequest) Sanitize() {
 		req.Traits[i].InstanceName = strings.TrimSpace(req.Traits[i].InstanceName)
 	}
 }
+
+// CreateGitSecretRequest represents the request to create a git secret
+type CreateGitSecretRequest struct {
+	SecretName string `json:"secretName"`
+	Token      string `json:"token"`
+}
+
+// Validate validates the CreateGitSecretRequest
+func (req *CreateGitSecretRequest) Validate() error {
+	if strings.TrimSpace(req.SecretName) == "" {
+		return errors.New("secretName is required")
+	}
+	if strings.TrimSpace(req.Token) == "" {
+		return errors.New("token is required")
+	}
+	if len(req.SecretName) > 253 {
+		return errors.New("secretName must be at most 253 characters")
+	}
+	return nil
+}
+
+// Sanitize sanitizes the CreateGitSecretRequest by trimming whitespace
+func (req *CreateGitSecretRequest) Sanitize() {
+	req.SecretName = strings.TrimSpace(req.SecretName)
+}

@@ -36,6 +36,9 @@ var (
 	ErrForbidden                    = errors.New("insufficient permissions to perform this action")
 	ErrDuplicateTraitInstanceName   = errors.New("duplicate trait instance name")
 	ErrInvalidTraitInstance         = errors.New("invalid trait instance")
+	ErrBuildPlaneNotFound           = errors.New("build plane not found")
+	ErrGitSecretAlreadyExists       = errors.New("git secret already exists")
+	ErrSecretStoreNotConfigured     = errors.New("secret store not configured")
 )
 
 // Error codes for API responses
@@ -74,4 +77,7 @@ const (
 	CodeInvalidParams                = "INVALID_PARAMS"
 	CodeDuplicateTraitInstanceName   = "DUPLICATE_TRAIT_INSTANCE_NAME"
 	CodeInvalidTraitInstance         = "INVALID_TRAIT_INSTANCE"
+	CodeBuildPlaneNotFound           = "BUILDPLANE_NOT_FOUND"
+	CodeGitSecretExists              = "GIT_SECRET_EXISTS"
+	CodeSecretStoreNotConfigured     = "SECRET_STORE_NOT_CONFIGURED"
 )
