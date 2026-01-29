@@ -38,6 +38,7 @@ var (
 	ErrInvalidTraitInstance         = errors.New("invalid trait instance")
 	ErrBuildPlaneNotFound           = errors.New("build plane not found")
 	ErrGitSecretAlreadyExists       = errors.New("git secret already exists")
+	ErrGitSecretNotFound            = errors.New("git secret not found")
 	ErrSecretStoreNotConfigured     = errors.New("secret store not configured")
 )
 
@@ -79,5 +80,6 @@ const (
 	CodeInvalidTraitInstance         = "INVALID_TRAIT_INSTANCE"
 	CodeBuildPlaneNotFound           = "BUILDPLANE_NOT_FOUND"
 	CodeGitSecretExists              = "GIT_SECRET_EXISTS"
+	CodeGitSecretNotFound            = "GIT_SECRET_NOT_FOUND"
 	CodeSecretStoreNotConfigured     = "SECRET_STORE_NOT_CONFIGURED"
 )
