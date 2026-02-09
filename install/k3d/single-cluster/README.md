@@ -1,4 +1,4 @@
-# Single-Cluster Setup
+# Single-Cluster Setup V2
 
 All-in-one OpenChoreo setup with all planes running in a single k3d cluster.
 
@@ -12,7 +12,7 @@ lower resource requirements.
 > [!IMPORTANT]
 > If you're using Colima, set the `K3D_FIX_DNS=0` environment variable when creating clusters.
 > See [k3d-io/k3d#1449](https://github.com/k3d-io/k3d/issues/1449) for more details.
-> Example: `K3D_FIX_DNS=0 k3d cluster create --config install/k3d/single-cluster/config.yaml`
+> Example: `K3D_FIX_DNS=0 k3d cluster create --config install/k3d/single-cluster/config.yaml`  ,asdsafadsf
 
 > [!TIP]
 > For faster setup or if you have slow network, consider using [Image Preloading](#image-preloading-optional) after creating the cluster.

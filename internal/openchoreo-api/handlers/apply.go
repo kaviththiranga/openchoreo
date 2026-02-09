@@ -238,7 +238,9 @@ func (h *Handler) handleResourceNamespace(obj *unstructured.Unstructured, apiVer
 func (h *Handler) isClusterScopedResource(gvk schema.GroupVersionKind) bool {
 	// List of known cluster-scoped OpenChoreo resources
 	clusterScopedResources := map[string]bool{
-		"Namespace": true,
+		"Namespace":               true,
+		"AuthzClusterRole":        true,
+		"AuthzClusterRoleBinding": true,
 	}
 
 	return clusterScopedResources[gvk.Kind]

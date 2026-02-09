@@ -239,6 +239,78 @@ func (h *Handler) Routes() http.Handler {
 	api.HandleFunc("POST "+v1+"/authz/batch-evaluate", h.BatchEvaluate)
 	api.HandleFunc("GET "+v1+"/authz/profile", h.GetSubjectProfile)
 
+	// ===== Resource Definition CRUD Endpoints =====
+
+	// Project definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/projects/{projectName}/definition", h.GetProjectDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/projects/{projectName}/definition", h.UpdateProjectDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/projects/{projectName}/definition", h.DeleteProjectDefinition)
+
+	// Component definition (namespace-scoped, not project-scoped)
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/components/{componentName}/definition", h.GetComponentDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/components/{componentName}/definition", h.UpdateComponentDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/components/{componentName}/definition", h.DeleteComponentDefinition)
+
+	// Environment definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/environments/{envName}/definition", h.GetEnvironmentDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/environments/{envName}/definition", h.UpdateEnvironmentDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/environments/{envName}/definition", h.DeleteEnvironmentDefinition)
+
+	// DataPlane definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/dataplanes/{dpName}/definition", h.GetDataPlaneDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/dataplanes/{dpName}/definition", h.UpdateDataPlaneDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/dataplanes/{dpName}/definition", h.DeleteDataPlaneDefinition)
+
+	// BuildPlane definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/buildplanes/{bpName}/definition", h.GetBuildPlaneDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/buildplanes/{bpName}/definition", h.UpdateBuildPlaneDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/buildplanes/{bpName}/definition", h.DeleteBuildPlaneDefinition)
+
+	// ObservabilityPlane definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/observabilityplanes/{opName}/definition", h.GetObservabilityPlaneDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/observabilityplanes/{opName}/definition", h.UpdateObservabilityPlaneDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/observabilityplanes/{opName}/definition", h.DeleteObservabilityPlaneDefinition)
+
+	// DeploymentPipeline definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/deployment-pipelines/{dpName}/definition", h.GetDeploymentPipelineDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/deployment-pipelines/{dpName}/definition", h.UpdateDeploymentPipelineDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/deployment-pipelines/{dpName}/definition", h.DeleteDeploymentPipelineDefinition)
+
+	// Workload definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/workloads/{workloadName}/definition", h.GetWorkloadDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/workloads/{workloadName}/definition", h.UpdateWorkloadDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/workloads/{workloadName}/definition", h.DeleteWorkloadDefinition)
+
+	// SecretReference definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/secret-references/{srName}/definition", h.GetSecretReferenceDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/secret-references/{srName}/definition", h.UpdateSecretReferenceDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/secret-references/{srName}/definition", h.DeleteSecretReferenceDefinition)
+
+	// GitSecret definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/git-secrets/{gsName}/definition", h.GetGitSecretDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/git-secrets/{gsName}/definition", h.UpdateGitSecretDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/git-secrets/{gsName}/definition", h.DeleteGitSecretDefinition)
+
+	// AuthzRole (namespace role) definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/roles/{name}/definition", h.GetRoleDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/roles/{name}/definition", h.UpdateRoleDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/roles/{name}/definition", h.DeleteRoleDefinition)
+
+	// AuthzRoleBinding (namespace role binding) definition
+	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/rolebindings/{name}/definition", h.GetRoleBindingDefinition)
+	api.HandleFunc("PUT "+v1+"/namespaces/{namespaceName}/rolebindings/{name}/definition", h.UpdateRoleBindingDefinition)
+	api.HandleFunc("DELETE "+v1+"/namespaces/{namespaceName}/rolebindings/{name}/definition", h.DeleteRoleBindingDefinition)
+
+	// AuthzClusterRole definition (cluster-scoped)
+	api.HandleFunc("GET "+v1+"/clusterroles/{name}/definition", h.GetClusterRoleDefinition)
+	api.HandleFunc("PUT "+v1+"/clusterroles/{name}/definition", h.UpdateClusterRoleDefinition)
+	api.HandleFunc("DELETE "+v1+"/clusterroles/{name}/definition", h.DeleteClusterRoleDefinition)
+
+	// AuthzClusterRoleBinding definition (cluster-scoped)
+	api.HandleFunc("GET "+v1+"/clusterrolebindings/{name}/definition", h.GetClusterRoleBindingDefinition)
+	api.HandleFunc("PUT "+v1+"/clusterrolebindings/{name}/definition", h.UpdateClusterRoleBindingDefinition)
+	api.HandleFunc("DELETE "+v1+"/clusterrolebindings/{name}/definition", h.DeleteClusterRoleBindingDefinition)
+
 	// ObservabilityPlane management
 	api.HandleFunc("GET "+v1+"/namespaces/{namespaceName}/observabilityplanes", h.ListObservabilityPlanes)
 
