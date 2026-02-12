@@ -79,9 +79,8 @@ type FileVar struct {
 // Container represents a single container in the workload.
 type Container struct {
 	// OCI image to run (digest or tag).
-	// +kubebuilder:validation:Required
-	// +kubebuilder:validation:MinLength=1
-	Image string `json:"image"`
+	// +optional
+	Image string `json:"image,omitempty"`
 
 	// Container entrypoint & args.
 	// +optional

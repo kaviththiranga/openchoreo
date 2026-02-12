@@ -634,10 +634,7 @@ spec:
                         type: array
                       image:
                         description: OCI image to run (digest or tag).
-                        minLength: 1
                         type: string
-                    required:
-                    - image
                     type: object
                   containers:
                     additionalProperties:
@@ -755,10 +752,7 @@ spec:
                           type: array
                         image:
                           description: OCI image to run (digest or tag).
-                          minLength: 1
                           type: string
-                      required:
-                      - image
                       type: object
                     description: |-
                       Containers define the container specifications for this workload.

@@ -158,9 +158,6 @@ func validateConversionParams(params api.CreateWorkloadParams) error {
 	if params.ComponentName == "" {
 		return fmt.Errorf("component name is required")
 	}
-	if params.ImageURL == "" {
-		return fmt.Errorf("image URL is required")
-	}
 	return nil
 }
 

@@ -390,6 +390,27 @@ func (r *Reconciler) reconcileRelease(ctx context.Context, releaseBinding *openc
 	snapshotTraits := buildTraitsFromRelease(componentRelease)
 	snapshotWorkload := buildWorkloadFromRelease(componentRelease)
 
+	// Before rendering, verify that all containers have images.
+	// A Workload may have containers with env/files defined but no image yet
+	// (e.g., pre-build). Skip rendering until images are populated.
+	if snapshotWorkload != nil {
+		hasContainerWithoutImage := false
+		for _, c := range snapshotWorkload.Spec.Containers {
+			if c.Image == "" {
+				hasContainerWithoutImage = true
+				break
+			}
+		}
+		if snapshotWorkload.Spec.Container != nil && snapshotWorkload.Spec.Container.Image == "" {
+			hasContainerWithoutImage = true
+		}
+		if hasContainerWithoutImage {
+			logger.Info("Skipping render: workload has containers without images",
+				"releasebinding", releaseBinding.Name)
+			return ctrl.Result{}, nil
+		}
+	}
+
 	// Collect all SecretReferences needed for rendering (must be done after workload merge)
 	secretReferences, err := r.collectSecretReferences(ctx, snapshotWorkload, releaseBinding)
 	if err != nil {
